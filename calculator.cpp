@@ -88,9 +88,9 @@ int revpolsen(conveer *input, conveer *output)
 		}
 		if (is_operator(input[inposs].type))//если оператор
 		{
-			while(is_operator(stack[stposs].type))//перекладываем все операторы на выход пока на вершине стека оператор
+			while(is_operator(stack[stposs].type))//перекладываем все оп
 			{
-				if (leftlow(input[inposs].type, stack[stposs].type))//op2 из стека в выходную очередь
+				if (leftlow(input[inposs].type, stack[stposs].type))//op2 из с
 				{
 					output[outposs] = stack[stposs];
 					stack[stposs].type = ' ';
@@ -337,31 +337,7 @@ double solve(conveer *line)//Вычисляет обратную польскую запись
 		}
 		if (line[inposs].type == '-')//обрабатываем разность
 		{
-			if (line[inposs + 1].type == '-')
-			{
-				if (stposs - 2 == -1)
-				{
-					p1 = 0;
-					p2 = stack[stposs - 1].value;
-					stack[stposs - 1].value = p1 + p2;
-					inposs += 2;
-
-				}
-					
-				else
-				{
-					p1 = stack[stposs - 2].value;
-					p2 = stack[stposs - 1].value;
-					stack[stposs - 2].value = p1 + p2;
-					stack[stposs - 1].type = ' ';
-					stposs--;
-					inposs += 2;
-
-				}
-				
-			}
-			else
-			{
+			
 				if (stposs - 2 == -1)
 				{
 					p1 = 0;
@@ -380,7 +356,7 @@ double solve(conveer *line)//Вычисляет обратную польскую запись
 					inposs++;
 
 				}
-			}
+			
 			
 				
 		}
