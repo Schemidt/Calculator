@@ -21,7 +21,7 @@ int revpolsen(conveer *input, conveer *output);
 double solve(conveer *line);//Вычисляет обратную польскую запись
 double calculator(char *input);
 
-void main()
+int main(void)
 {
 	
 	
@@ -34,7 +34,7 @@ void main()
 		break;
 	printf("%.2f\n",calculator(input));
 	}
-	system("pause");
+		return 0;
 }
 
 double calculator(char *input)//функция вычисляющая значение выражения введенного пользователем
