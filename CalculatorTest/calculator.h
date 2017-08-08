@@ -237,11 +237,11 @@ int loader(char *in, conveer *line)
 		}
 		if (is_operator(input[i]))//pull operators to output array
 		{
-			/*if (input[i + 1] != '('  && !is_ident(input[i + 1]))
+			if (input[i + 1] != '('  && !is_ident(input[i + 1]))
 			{
 				printf("Number missed\n");
 				return 0;
-			}*/
+			}
 			if (is_operator(input[i - 1]))
 			{
 				printf("One operator cant follow second\n");
