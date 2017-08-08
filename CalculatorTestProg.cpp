@@ -32,7 +32,7 @@ int main(void)
 	if (res = calculator("(-1)\n") == -1)//(-1)=-1
 		printf("(-1) = -1 - OK\n");
 	else
-		printf("(-1) = %f - FAULT\n", res);
+		printf("(-1) != %f - FAULT\n", res);
 
 	if (res = calculator(" - 1 + 5 - 3\n") == 1)//-1 + 5 - 3 = 1
 		printf("-1 + 5 - 3 = 1 - OK\n");
@@ -50,7 +50,7 @@ int main(void)
 		printf("1 + (2 * (2.5 + 2.5 + (3 - 2))) - (3 / 1.5) != %f - FAULT\n", res);
 
 
-	getchar();
+
 	return 0;
 }
 

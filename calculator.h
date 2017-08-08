@@ -280,7 +280,8 @@ int loader(char *in, conveer *line)
 			j++;
 			i++;
 		}
-		if (!is_ident(input[i])&&!is_operator(input[i])&& input[i]!=')'&&input[i] != '(')//Print error if restricted symbols on queue
+	if (!is_ident(input[i]) && !is_operator(input[i]) && input[i]!=')' && input[i] != '(' && input[i] != '\n' && input[i] != '\0' && input[i] != '.' && input[i] != ',')
+//Print error if restricted symbols on queue
 		{
 			printf("restricted symbols\n");
 				return 0;
