@@ -8,7 +8,7 @@
 
 
 
-void main()
+int main(void)
 {
 	
 	
@@ -21,7 +21,7 @@ void main()
 		break;
 	printf("%.2f\n",calculator(input));
 	}
-	system("pause");
+	return 0;
 }
 
 
