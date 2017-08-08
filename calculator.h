@@ -104,7 +104,7 @@ int revpolsen(conveer *input, conveer *output)
 		if (input[inposs].type == '(')//if the token is a left bracket (i.e. "("), then:
 									  //push it onto the operator stack.
 		{
-			if (input[inposs + 1].type == '-')
+			if ( is_operator(input[inposs + 1].type))
 			{
 				output[outposs].value = 0;
 				output[outposs].type = 'n';
@@ -254,6 +254,11 @@ int loader(char *in, conveer *line)
 		if (input[i] == '(')//pull brackets to output array
 		{
 			b++;
+			if (input[i + 1]=='*'||input[i + 1]=='/')
+			{
+				printf("Number missed\n");
+					return 0;
+			}
 			if (is_ident(input[i - 1]))
 			{
 				printf("Operator missed\n");
