@@ -25,8 +25,7 @@ double calculator(char *input);//Unites 4 functions above
 double calculator(char *input)
 {
 	conveer output[32], line[32];
-	int i = 0;
-
+	/*int i = 0;*/
 	if (loader(input, line) == 0)
 		return 0;
 	revpolsen(line, output);
@@ -191,16 +190,31 @@ bool leftlow(char op1, char op2)
 		return false;
 }
 
-int loader(char *input, conveer *line)
+int loader(char *in, conveer *line)
 {
 	int b = 0, i = 0, j = 0, pos = 0;
 	char box[10];
+	char input[128];
 
-
-	while (input[i] != '\n')
+	while (in[i] != '\n' && in[i] != '\0')
+	{
+		if (in[i] == ' ')
+			i++;
+		else
+		{
+			input[j] = in[i];
+			j++;
+			i++;
+		}
+	}
+	input[j] = '\0';
+	i = j = 0;
+	while (input[i] != '\0')
 	{
 		while (is_ident(input[i]) || input[i] == '.' || input[i] == ',')//Collect numbers to 'box'
 		{
+			
+
 			if (input[i] == ',')
 				box[pos] = '.';
 			else
@@ -223,10 +237,14 @@ int loader(char *input, conveer *line)
 		}
 		if (is_operator(input[i]))//pull operators to output array
 		{
+			/*if (input[i + 1] != '('  && !is_ident(input[i + 1]))
+			{
+				printf("Number missed\n");
+				return 0;
+			}*/
 			if (is_operator(input[i - 1]))
 			{
-				printf("One operator cant follow second");
-				if (getchar())
+				printf("One operator cant follow second\n");
 					return 0;
 			}
 			line[j].type = input[i];
@@ -238,8 +256,7 @@ int loader(char *input, conveer *line)
 			b++;
 			if (is_ident(input[i - 1]))
 			{
-				printf("operator missed");
-				if (getchar())
+				printf("Operator missed\n");
 					return 0;
 			}
 			line[j].type = input[i];
@@ -251,26 +268,21 @@ int loader(char *input, conveer *line)
 			b--;
 			if (is_ident(input[i + 1]))
 			{
-				printf("operator missed");
-				if (getchar())
+				printf("Operator missed\n");
 					return 0;
 			}
 			if (is_operator(input[i - 1]))
 			{
-				printf("number missed");
-				if (getchar())
+				printf("Number missed\n");
 					return 0;
 			}
 			line[j].type = input[i];
 			j++;
 			i++;
 		}
-		if (input[i] == ' ')
-			i++;
-
 		if (input[i] >= 'a'&&input[i] <= 'z' || input[i] >= 'A'&&input[i] <= 'Z')//Print error if restricted symbols on queue
 		{
-			printf("restricted symbols");
+			printf("restricted symbols\n");
 			if (getchar())
 				return 0;
 		}
@@ -281,14 +293,12 @@ int loader(char *input, conveer *line)
 	{
 		if (b < 0)
 		{
-			printf("missed '('");//'('
-			if (getchar())
+			printf("missed '('\n");//'('
 				return 0;
 		}
 		if (b > 0)
 		{
-			printf("missed ')'");//')'
-			if (getchar())
+			printf("missed ')'\n");//')'
 				return 0;
 		}
 
@@ -302,7 +312,7 @@ double solve(conveer *line)
 	double res = 0;
 	conveer stack[128];
 	int inposs = 0, stposs = 0;
-	double p1 = 0, p2 = 0;
+	double p1 = 0, p2 = 0, g=0;
 
 	while (line[inposs].type != ' ')
 	{
@@ -317,14 +327,23 @@ double solve(conveer *line)
 		if (line[inposs].type == '+')// +
 		{
 			if (stposs - 2 == -1)
+			{
 				p1 = 0;
+				p2 = stack[stposs - 1].value;
+				stack[stposs - 1].value = p1 + p2;
+				inposs++;
+
+			}
 			else
+			{
 				p1 = stack[stposs - 2].value;
-			p2 = stack[stposs - 1].value;
-			stack[stposs - 2].value = p1 + p2;
-			stack[stposs - 1].type = ' ';
-			stposs--;
-			inposs++;
+				p2 = stack[stposs - 1].value;
+				stack[stposs - 2].value = p1 + p2;
+				stack[stposs - 1].type = ' ';
+				stposs--;
+				inposs++;
+
+			}
 		}
 		if (line[inposs].type == '-')// -
 		{
@@ -355,8 +374,7 @@ double solve(conveer *line)
 		{
 			if (stposs - 2 == -1)
 			{
-				printf(" '*' is 2-operand operation \n");
-				if (getchar())
+				printf("'*' is 2-operand operation\n");
 					return 0;
 			}
 			else
@@ -369,23 +387,28 @@ double solve(conveer *line)
 		}
 		if (line[inposs].type == '/')// divide
 		{
-			if (stposs - 2 == -1)
-				p1 = 0;
-			else
-				p1 = stack[stposs - 2].value;
-			p2 = stack[stposs - 1].value;
-			if (p2 == 0)
-			{
-				printf("Divide by zero\n");//Print error if divide by zero
-				if (getchar())
-					return 0;
-
-			}
-			else
+			
+				
+			
+				if (stposs - 2 == -1)
+				{
+					printf("'/' is 2-operand operation\n");
+						return 0;
+				}
+				else
+					p1 = stack[stposs - 2].value;
+				p2 = stack[stposs - 1].value;
+				
+				if (p2 == 0) {
+						printf("Divide by zero\n");//Print error if divide by zero
+						return 0;
+				}
+					
 				stack[stposs - 2].value = p1 / p2;
-			stack[stposs - 1].type = ' ';
-			stposs--;
-			inposs++;
+				stack[stposs - 1].type = ' ';
+				stposs--;
+				inposs++;
+				
 		}
 	}
 	res = stack[stposs - 1].value;
